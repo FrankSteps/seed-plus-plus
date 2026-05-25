@@ -1,44 +1,45 @@
 # Seed++
 
-**Seed++** é um sistema automatizado de fechadura elétrica projetado com Arduino, utilizando um solenóide e um sensor biométrico para controle seguro de acesso. O projeto foi desenvolvido para a FnEsc.
+**Seed++** é um sistema automatizado de controle de acesso baseado em RFID, desenvolvido com Arduino para a FnEsc (Física na Escola). O dispositivo utiliza um solenóide acionado por relé para controlar uma fechadura elétrica, oferecendo autenticação segura através de cartões RFID.
 
-O sistema permite o **CRUD de usuários**, ou seja, usuários podem ser registrados e removidos individualmente ou todos apagados de uma só vez.
+O sistema permite o **CRUD de usuários** (Create, Read, Update, Delete), possibilitando registro e remoção individual de cartões ou limpeza total da memória. 
 
-Além de ser um projeto funcional, o objetivo deste dispositivo também é servir como **estudo de sistemas embarcados e de paradigmas de programação aplicados ao desenvolvimento de hardware**.
-
+Além de funcional, o projeto serve como **referência de estudo em sistemas embarcados e paradigmas de programação aplicados ao desenvolvimento de hardware**.
 
 ## Features
 
-* Cadastrar usuários
-* Remover um único usuário por seu ID
-* Remover todos os usuários
-* Tela LCD e LEDs para feedback do usuário
-* Modo administrador e modo leitura
-* Barrar o acesso de pessoas não cadastradas
-* Liberar o acesso de pessoas cadastradas
-
+- ✅ Cadastrar novos cartões RFID
+- ✅ Remover cartões individuais
+- ✅ Limpar toda a base de cartões
+- ✅ Modo administrador e modo leitura
+- ✅ Feedback visual
+- ✅ Controle de acesso baseado em RFID
+- ✅ Armazenamento dinâmico na EEPROM
 
 ## Componentes
 
-* Arduino Nano
-* Módulo RFID
-* Solenoide
-* Módulo regulador de tensão step-down
-* Módulo relé
-* Tela LCD com módulo de comunicação I2C
-* LEDs
-* Interruptor ON/OFF com chave de segurança
-* Botões
-* Fonte de 12V
+- Arduino Nano
+- Leitor RFID (MFRC522)
+- Tela LCD com módulo para comunicação I2C
+- Solenóide com módulo relé
+- Módulo regulador de tensão step-down (5V)
+- Painel de botões analógicos
+- Interruptor ON/OFF com chave de segurança
+- Fonte de alimentação 12V
 
+## Arquitetura
 
-## Como contribuir
+O projeto segue paradigmas de **Programação Orientada a Objetos** com separação de responsabilidades:
 
-O guia para futuros contribuidores está disponível em [CONTRIBUTING.md](CONTRIBUTING.md).
+- `main` - Responsável por orquestrar toda a lógica
+- `RFID` - Gerencia leitura de cartões
+- `Button` - Interpreta entrada de botões
+- `Storage` - Controla armazenamento na EEPROM
 
-Esse guia tem como objetivo, junto com a documentação do projeto, auxiliar futuros desenvolvedores da FnEsc que desejem trabalhar ou dar continuidade ao sistema.
+## Como Contribuir
 
+O guia para futuros contribuidores está disponível em [CONTRIBUTING.md](CONTRIBUTING.md). Este guia, junto com a documentação técnica, auxilia desenvolvedores que desejam trabalhar na continuidade do projeto.
 
 ## Licença
 
-Este projeto está licenciado sob a licença MIT. Para mais detalhes, consulte o arquivo [LICENSE](LICENSE).
+Este projeto está licenciado sob a licença MIT. Para mais detalhes, consulte [LICENSE](LICENSE).

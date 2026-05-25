@@ -1,6 +1,8 @@
 *.aux 
 *.log
 *.out
-*.tex
 *.toc
 *.exe
+*.env
+*.vscode/
+*.pio/docs/seedpp.pdf
