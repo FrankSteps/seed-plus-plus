@@ -1,0 +1,258 @@
+\documentclass[a4paper,12pt]{article}
+
+% Pacotes essenciais
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{xcolor}
+\usepackage{minted}
+
+\definecolor{bg}{rgb}{0.1,0.1,0.1}
+\usemintedstyle{monokai}
+
+\geometry{a4paper, margin=2.5cm}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+
+    \vspace*{5cm}
+    
+    {\LARGE Documentação do Seed++\par}
+
+    \vspace{2cm}
+
+    {\Large Francisco Passos dos Santos Alves\par}
+
+    \vfill
+
+    São Cristóvão, SE \\
+    Julho 2026
+\end{titlepage}
+
+\clearpage
+\pagenumbering{arabic}
+
+\tableofcontents
+\newpage
+
+\section{Introdução}
+
+O Seed++ (Seed Plus Plus) é um sistema embarcado de controle de acesso desenvolvido para o laboratório de Física da Física na Escola, com o objetivo de automatizar o acesso ao ambiente por meio de autenticação via RFID.
+
+O sistema foi projetado para permitir que apenas usuários autorizados possam acessar o laboratório, utilizando cartões RFID previamente cadastrados. Para isso, o dispositivo realiza a leitura do identificador único (UID) de cada cartão e compara esse identificador com os registros armazenados em memória não volátil.
+
+Além de sua aplicação prática no controle de acesso, o desenvolvimento do Seed++ também serviu como oportunidade de estudo em áreas como sistemas embarcados, eletrônica aplicada, arquitetura de software e paradigmas de programação. O projeto permitiu a aplicação prática de conceitos de modularização, abstração de hardware e Programação Orientada a Objetos em um ambiente com recursos limitados.
+
+A versão atual do projeto, denominada Seed++ V2, apresenta uma arquitetura de software modular e organizada em componentes independentes, facilitando manutenção, testes e futuras expansões.
+
+\section{Visão Geral do Sistema}
+
+O Seed++ é baseado em um Arduino Uno R3, responsável por coordenar todos os dispositivos conectados ao sistema. Entre os principais componentes estão o leitor RFID, o circuito de acionamento da fechadura elétrica, botões de controle e LEDs indicadores.
+
+O sistema opera em dois modos principais:
+
+\begin{itemize}
+    \item \textbf{Modo Leitura}: modo padrão de operação, utilizado para autenticação e liberação de acesso.
+    \item \textbf{Modo Administrador}: modo utilizado para gerenciar os cartões autorizados no sistema.
+\end{itemize}
+
+Durante o funcionamento normal, o sistema permanece aguardando a aproximação de um cartão RFID. Quando um cartão é detectado, seu UID é lido e comparado com os registros armazenados na EEPROM. Caso o UID seja reconhecido, a fechadura é liberada temporariamente através do acionamento de um relé conectado ao solenóide.
+
+No modo administrador, é possível cadastrar ou remover cartões da base de usuários autorizados.
+
+\section{Arquitetura do Sistema}
+
+\subsection{Arquitetura de Hardware}
+
+A arquitetura física do Seed++ integra componentes responsáveis por alimentação, autenticação, interface com o usuário e controle eletromecânico.
+
+Os principais módulos de hardware são:
+
+\begin{itemize}
+    \item Microcontrolador Arduino Uno R3
+    \item Leitor RFID MFRC522
+    \item Solenóide com módulo relé
+    \item Regulador step-down de 12V para 5V
+    \item Painel de botões analógicos
+    \item Chave física de segurança
+    \item LEDs indicadores
+    \item Fonte de alimentação de 12V
+\end{itemize}
+
+O Arduino atua como unidade central de processamento, recebendo sinais do leitor RFID e dos botões, processando as informações e controlando o relé responsável pela fechadura.
+
+O módulo step-down converte a tensão de 12V da fonte externa para 5V, necessária para alimentação dos componentes eletrônicos do sistema.
+
+\subsection{Indicadores Visuais}
+
+O Seed++ utiliza três LEDs para fornecer feedback visual ao usuário:
+
+\begin{itemize}
+    \item LED verde: indica acesso autorizado
+    \item LED vermelho: indica acesso negado
+    \item LED azul: indica modo administrador ativo
+\end{itemize}
+
+Esses indicadores facilitam a interpretação do estado do sistema sem necessidade de interface textual.
+
+\subsection{Diagrama Esquemático}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/esquematico-1.png}
+\caption{Diagrama esquemático do Seed++}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/esquematico-2.png}
+\caption{Diagrama esquemático do Seed++}
+\end{figure}
+
+\section{Arquitetura de Software}
+
+A arquitetura de software do Seed++ foi projetada com forte separação de responsabilidades. O sistema foi estruturado em módulos independentes, cada um responsável por uma parte específica do funcionamento.
+
+A implementação utiliza Programação Orientada a Objetos, permitindo encapsular responsabilidades e reduzir acoplamento entre componentes.
+
+Os módulos principais são:
+
+\subsection{main}
+
+O arquivo principal atua como orquestrador do sistema. Ele inicializa os componentes, define o modo de operação atual e coordena o fluxo geral de execução.
+
+Também é responsável pelo controle do relé e pela alternância entre os modos de leitura e administração.
+
+\subsection{RFIDController}
+
+Este módulo encapsula toda a lógica relacionada ao leitor RFID.
+
+Suas responsabilidades incluem:
+
+\begin{itemize}
+    \item Inicialização do módulo RFID
+    \item Detecção de cartões
+    \item Leitura de UID
+    \item Encerramento de sessão de leitura
+\end{itemize}
+
+\subsection{ButtonController}
+
+Responsável pela leitura e interpretação dos botões conectados ao sistema.
+
+Este módulo também implementa debounce, reduzindo leituras incorretas causadas por ruído mecânico durante o acionamento dos botões.
+
+\subsection{StorageController}
+
+Responsável pelo gerenciamento dos dados persistentes armazenados na EEPROM.
+
+Esse módulo implementa funcionalidades de armazenamento, busca e remoção de cartões autorizados.
+
+\section{Armazenamento em EEPROM}
+
+O Seed++ utiliza a EEPROM do Arduino para armazenar permanentemente os UIDs dos cartões autorizados.
+
+Cada UID ocupa 4 bytes, correspondendo ao identificador único lido pelo módulo RFID.
+
+O sistema reserva:
+
+\begin{itemize}
+    \item 1 byte para armazenar a quantidade de cartões cadastrados
+    \item 4 bytes para cada UID
+\end{itemize}
+
+A quantidade máxima de cartões armazenáveis foi definida como 30.
+
+A quantidade total de memória utilizada é dada por:
+
+\[
+1 + (30 \times 4) = 121 \text{ bytes}
+\]
+
+Essa limitação foi definida considerando a necessidade real do laboratório, que possui um número reduzido de usuários autorizados.
+
+\section{Modos de Operação}
+
+\subsection{Modo Leitura}
+
+Este é o modo padrão de operação do Seed++.
+
+Seu fluxo pode ser resumido em:
+
+\begin{enumerate}
+    \item Aguardar aproximação de cartão RFID
+    \item Ler UID do cartão
+    \item Verificar existência na EEPROM
+    \item Liberar ou negar acesso
+\end{enumerate}
+
+Caso o UID exista na base de dados, o sistema:
+
+\begin{itemize}
+    \item aciona o relé
+    \item energiza o solenóide
+    \item libera a porta por alguns segundos
+\end{itemize}
+
+Caso contrário, o acesso é negado.
+
+\subsection{Modo Administrador}
+
+O modo administrador é utilizado para gerenciamento dos cartões autorizados.
+
+Seu acesso é protegido por uma chave física de segurança.
+
+Quando ativado, o LED azul sinaliza que o sistema entrou em modo administrativo.
+
+Nesse modo, um operador pode:
+
+\begin{itemize}
+    \item cadastrar novos cartões
+    \item remover cartões existentes
+\end{itemize}
+
+O fluxo de cadastro ou remoção ocorre da seguinte forma:
+
+\begin{enumerate}
+    \item Ativar modo administrador
+    \item Aproximar cartão RFID
+    \item Selecionar ação com botão físico
+    \item Confirmar operação
+\end{enumerate}
+
+\section{Considerações Finais}
+
+O Seed++ representa uma solução funcional para controle de acesso em ambientes laboratoriais, oferecendo autenticação baseada em RFID com armazenamento persistente de usuários autorizados.
+
+A arquitetura modular adotada contribui significativamente para manutenção, legibilidade do código e escalabilidade do projeto. A separação entre hardware e software também permite futuras expansões com menor esforço de desenvolvimento.
+
+Entre possíveis melhorias futuras, destacam-se:
+
+\begin{itemize}
+    \item interface gráfica mais elaborada
+    \item registro de logs de acesso
+    \item autenticação em múltiplos níveis
+    \item integração com sistemas remotos
+\end{itemize}
+
+\section{Informações de Contato}
+
+Para dúvidas, sugestões ou contribuições relacionadas ao projeto Seed++, entre em contato:
+
+\begin{itemize}
+    \item GitHub: \url{https://github.com/franksteps/seed-plus-plus}
+    \item LinkedIn: \url{https://www.linkedin.com/in/franksteps/}
+    \item E-mail pessoal: franciscopassos.contato@gmail.com
+    \item E-mail acadêmico: francisco.alves@dcomp.ufs.br
+    \item E-mail profissional: contato@franksteps.com.br
+\end{itemize}
+
+\end{document}
