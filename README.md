@@ -9,7 +9,7 @@ Além de funcional, o projeto serve como **referência de estudo em sistemas emb
 ## Features
 
 - ✅ Cadastrar novos cartões RFID
-- ✅ Remover cartões individuais
+- ✅ Remover cartões individualmente
 - ✅ Limpar toda a base de cartões
 - ✅ Modo administrador e modo leitura
 - ✅ Feedback visual
@@ -20,7 +20,6 @@ Além de funcional, o projeto serve como **referência de estudo em sistemas emb
 
 - Arduino Nano
 - Leitor RFID (MFRC522)
-- Tela LCD com módulo para comunicação I2C
 - Solenóide com módulo relé
 - Módulo regulador de tensão step-down (5V)
 - Painel de botões analógicos
