@@ -18,7 +18,7 @@ Além de funcional, o projeto serve como **referência de estudo em sistemas emb
 
 ## Componentes
 
-- Arduino Nano
+- Arduino Uno R3
 - Leitor RFID (MFRC522)
 - Solenóide com módulo relé
 - Módulo regulador de tensão step-down (5V)
