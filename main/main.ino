@@ -14,11 +14,10 @@
     - Sistema de botões multifunção com debounce
 
   Hardware:
-    - Arduino Uno/Nano
+    - Arduino Uno
     - Leitor RFID MFRC522
     - Módulo Relé 5V
     - Painel de Botões Analógicos
-    - Painel LCD com módulo I2C
     - Botões e LEDs
 
   Autores:
@@ -75,7 +74,7 @@ void unlockDoor() {
 
 // Loop principal - seleciona entre modo admin ou leitura
 void loop() {
-  if (!digitalRead(modeSwitchPin)) {
+  if (digitalRead(modeSwitchPin)) {
     loopAdmin();
   } else {
     loopRead();
